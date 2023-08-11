@@ -1,4 +1,4 @@
-Creating a README for your project is essential to provide clear instructions, information, and context for anyone who might use or contribute to your project. Here's a basic template for your project's README:
+
 
 ```markdown
 # Weather App
