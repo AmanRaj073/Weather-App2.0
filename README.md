@@ -49,7 +49,7 @@ A simple weather app built with React that allows users to search for weather in
 
 ## Screenshots
 
-![Alt text](image link)
+![Alt text]([image link](https://github.com/AmanRaj073/Weather-App/Screenshot/capture.png?raw=true))
 
 ## License
 
