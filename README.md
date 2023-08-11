@@ -50,6 +50,11 @@ A simple weather app built with React that allows users to search for weather in
 ## Screenshots
 <img width="1128" alt="Capture" src="https://github.com/AmanRaj073/Weather-App/assets/89194819/a0e8cc52-a37a-4738-8fb0-f428e76e6f4c">
 
+## Sample Video
+
+
+https://github.com/AmanRaj073/Weather-App/assets/89194819/0e7778a4-ea29-4647-9dcb-51f9731c588d
+
 
 ## License
 
