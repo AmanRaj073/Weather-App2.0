@@ -48,8 +48,8 @@ A simple weather app built with React that allows users to search for weather in
 - Geolocation API
 
 ## Screenshots
+<img width="1128" alt="Capture" src="https://github.com/AmanRaj073/Weather-App/assets/89194819/a0e8cc52-a37a-4738-8fb0-f428e76e6f4c">
 
-![Alt text]([image link](https://github.com/AmanRaj073/Weather-App/Screenshot/capture.png?raw=true))
 
 ## License
 
