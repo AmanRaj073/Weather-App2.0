@@ -6,10 +6,17 @@ import { BiArrowBack } from "react-icons/bi";
 import { CiLocationOn, CiTempHigh } from "react-icons/ci";
 import { BsDropletHalf } from "react-icons/bs";
 import { MdWifiTetheringError } from "react-icons/md";
+import clear from "./Weather-Icons/clear.svg";
+import cloud from "./Weather-Icons/cloud.svg";
+import haze from "./Weather-Icons/haze.svg";
+import rain from "./Weather-Icons/rain.svg";
+import snow from "./Weather-Icons/snow.svg";
+import storm from "./Weather-Icons/storm.svg";
 
 const Card = () => {
   const [weatherData, setWeatherData] = useState();
   const [error, setError] = useState("");
+  const [img, setImg] = useState("");
   const location = useLocation();
   const inputValue = location.state;
   const navigate = useNavigate();
@@ -21,6 +28,23 @@ const Card = () => {
     try {
       const { data } = await axios.get(apiUrl);
       setWeatherData(data);
+
+      let id = data?.weather[0]?.id;
+      if (id) {
+        if (id >= 200 && id <= 232) {
+          setImg(storm);
+        } else if (id >= 600 && id <= 622) {
+          setImg(snow);
+        } else if (id >= 701 && id <= 781) {
+          setImg(haze);
+        } else if (id >= 801 && id <= 804) {
+          setImg(cloud);
+        } else if ((id >= 500 && id <= 531) || (id >= 300 && id <= 321)) {
+          setImg(rain);
+        } else {
+          setImg(clear);
+        }
+      }
     } catch (error) {
       setError(error?.response?.data?.message);
       console.log("Error", error?.response?.data?.message);
@@ -30,7 +54,6 @@ const Card = () => {
   useEffect(() => {
     resData();
   }, [inputValue]);
-
   return (
     <div className="main">
       <div className="header">
@@ -45,10 +68,13 @@ const Card = () => {
       {weatherData ? (
         <>
           <div className="info">
+            <div>
             <img
-              src={`https://openweathermap.org/img/wn/${weatherData?.weather[0]?.icon}@2x.png`}
+              src={img}
               alt="weather"
             />
+            </div>
+            <div></div>
             <span className="temp">
               {Math.floor(Number(weatherData?.main?.temp) - 273)}°C
             </span>
