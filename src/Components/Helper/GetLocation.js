@@ -1,8 +1,7 @@
 import axios from "axios";
 
-export const getLocation = async () => {
+export const GetLocation = async () => {
   try {
-    // Get the user's current position using the Geolocation API
     const position = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
@@ -16,6 +15,6 @@ export const getLocation = async () => {
     return address;
   } catch (error) {
     console.error("Error getting location:", error);
-    return error
+    return error;
   }
 };

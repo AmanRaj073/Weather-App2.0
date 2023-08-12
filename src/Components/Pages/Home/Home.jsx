@@ -1,74 +1,64 @@
 import React, { useState } from "react";
 import "./Home.css";
 import { useNavigate } from "react-router-dom";
-import { getLocation } from "../../GetLocation/getLocation";
-import SyncLoader from "react-spinners/SyncLoader";
+import { useGlobalContext } from "../../Context/useContext";
+import { GetLocation } from "../../Helper/GetLocation";
+
 const Home = () => {
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [errorLens, setErrorLens] = useState("");
+  const { setError, resData, error, loading, setLoading } = useGlobalContext();
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
-  function handleSearch(data) {
-    navigate("/card", { state: data });
-  }
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
 
-  //------ Search by pressing Enter -----
-  const handleKeyPress = (event) => {
-    setLoading(true);
-
-    if (event.key === "Enter") {
-      handleSearch(search);
+  const handleKeyPress = async (event) => {
+    if (event.key === 'Enter') {
+      setError("");
+      const res = await resData(searchValue);
+      if (res) {
+        navigate("/card");
+        setError("");
+      } else {
+        setLoading("");
+        // setError(error.message)
+        // setError(`${searchValue} City Doesn't Exist`);
+      }
     }
   };
 
-  //------ Get Location by Button ------
-  async function handlegetlocation() {
-    setErrorLens("Fetching Location ...");
-    setLoading(true);
-    let res = await getLocation();
-    console.log(res?.city);
+  async function handleGetLocation() {
+    setError("");
+    setLoading("Getting Device Location");
+    const res = await GetLocation();
+    setLoading("");
+
     if (res?.city) {
-      handleSearch(res?.city);
-      setErrorLens("");
+      await resData(res.city);
+      navigate("/card");
+      setError("");
     } else {
-      // setLoading(false);
-      setErrorLens(res?.message);
-      console.log(errorLens);
+      setError(res?.message);
     }
   }
 
   return (
-    <div className="boxer">
-      <div className="heading">
-        <span>Weather App</span>
-        <hr />
-      </div>
-      {loading ? (
-        <>
-          <div className="searchbox">
-            <input
-              type="text"
-              name="search"
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Enter City Name"
-            />
-            <span>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ or ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ </span>
-            {errorLens && <span>{errorLens}</span>}
-            <button onClick={handlegetlocation}>Get Device Location</button>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="skeleton">
-            <h4>
-              Fetching Device Location
-              <SyncLoader />
-            </h4>
-          </div>
-        </>
-      )}
+    <div className="wrapper">
+      <header>Weather App</header>
+      <section className="input-part">
+        {loading && <p className="info-txt pending">{loading}</p>}
+        {error && <p className="info-txt error">{error}</p>}
+        <input
+          value={searchValue}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          type="text"
+          placeholder="Enter City Name"
+        />
+        <div className="separator"></div>
+        <button onClick={handleGetLocation}>Get Device Location</button>
+      </section>
     </div>
   );
 };
