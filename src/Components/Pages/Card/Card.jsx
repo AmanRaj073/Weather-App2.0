@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./card.css";
+import "./Card.css";
 import { useNavigate } from "react-router-dom";
 import clear from "./Weather-Icons/clear.svg";
 import cloud from "./Weather-Icons/cloud.svg";
